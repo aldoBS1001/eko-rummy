@@ -13,3 +13,12 @@ jobs:
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - run: PLAYWRIGHT_MODULE=$PWD/node_modules/playwright npm run test:e2e
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t eko-rummy .
+      - run: |
+          docker run -d --name eko -p 10000:10000 -e PORT=10000 -e NODE_ENV=production -e AUTH_SECRET=$(openssl rand -hex 32) eko-rummy
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:10000/api/health && exit 0; sleep 2; done
+          docker logs eko; exit 1
