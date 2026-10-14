@@ -1,0 +1,10 @@
+{
+  "appId": "com.businessshop.ekorummy",
+  "appName": "EKO RUMMY",
+  "webDir": "apps/web/dist",
+  "backgroundColor": "#123F2E",
+  "ios": {
+    "contentInset": "never",
+    "backgroundColor": "#123F2E"
+  }
+}

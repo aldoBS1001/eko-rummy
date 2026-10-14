@@ -1,0 +1,132 @@
+# Compila EKO RUMMY para iPhone y lo sube a App Store Connect (TestFlight).
+# Se ejecuta a mano: GitHub → Actions → "iOS · App Store" → Run workflow.
+#
+# Secrets requeridos (Settings → Secrets and variables → Actions):
+#   ASC_KEY_ID      Key ID de la llave de API de App Store Connect
+#   ASC_ISSUER_ID   Issuer ID
+#   ASC_KEY_P8      Contenido completo del archivo AuthKey_XXXX.p8
+#   APPLE_TEAM_ID   Team ID de Business Shop A&A (developer.apple.com → Membership)
+#   EKO_SERVER_URL  URL pública del servidor de partidas (https://…)
+name: iOS · App Store
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Versión visible en la tienda
+        default: '1.0.0'
+        required: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  ios:
+    runs-on: macos-15
+    timeout-minutes: 60
+    env:
+      APP_ID: com.businessshop.ekorummy
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Revisar secrets
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          EKO_SERVER_URL: ${{ secrets.EKO_SERVER_URL }}
+        run: |
+          missing=0
+          for v in ASC_KEY_ID ASC_ISSUER_ID ASC_KEY_P8 APPLE_TEAM_ID EKO_SERVER_URL; do
+            if [ -z "${!v}" ]; then echo "::error::Falta el secret $v"; missing=1; fi
+          done
+          exit $missing
+
+      - name: Elegir el Xcode más reciente
+        run: |
+          XC=$(ls -d /Applications/Xcode_*.app | sort -V | tail -1)
+          sudo xcode-select -s "$XC/Contents/Developer"
+          xcodebuild -version
+
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+
+      - name: Instalar dependencias y Capacitor
+        run: |
+          npm install --no-audit --no-fund
+          npm install --no-save --no-audit --no-fund @capacitor/core@7 @capacitor/cli@7 @capacitor/ios@7
+
+      - name: Compilar el juego (versión para tiendas)
+        env:
+          EKO_STORE_BUILD: '1'
+          EKO_SERVER_URL: ${{ secrets.EKO_SERVER_URL }}
+        run: npm run build
+
+      - name: Generar proyecto iOS
+        run: |
+          [ -d ios ] || npx cap add ios
+          npx cap sync ios
+
+      - name: Ícono y ajustes de Info.plist
+        run: |
+          ICONSET=ios/App/App/Assets.xcassets/AppIcon.appiconset
+          for f in "$ICONSET"/*.png; do cp resources/icon-1024.png "$f"; done
+          PLIST=ios/App/App/Info.plist
+          /usr/libexec/PlistBuddy -c "Delete :ITSAppUsesNonExemptEncryption" "$PLIST" 2>/dev/null || true
+          /usr/libexec/PlistBuddy -c "Add :ITSAppUsesNonExemptEncryption bool false" "$PLIST"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName EKO RUMMY" "$PLIST" 2>/dev/null || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string EKO RUMMY" "$PLIST"
+
+      - name: Llave de App Store Connect
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/keys"
+          printf '%s\n' "$ASC_KEY_P8" > "$RUNNER_TEMP/keys/AuthKey_$ASC_KEY_ID.p8"
+          echo "KEY_PATH=$RUNNER_TEMP/keys/AuthKey_$ASC_KEY_ID.p8" >> "$GITHUB_ENV"
+
+      - name: Archivar (firma automática)
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          cd ios/App
+          if [ -d App.xcworkspace ]; then TARGET="-workspace App.xcworkspace"; else TARGET="-project App.xcodeproj"; fi
+          xcodebuild $TARGET -scheme App -configuration Release \
+            -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/App.xcarchive" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            DEVELOPMENT_TEAM="$APPLE_TEAM_ID" CODE_SIGN_STYLE=Automatic \
+            PRODUCT_BUNDLE_IDENTIFIER="$APP_ID" \
+            MARKETING_VERSION="${{ inputs.version }}" CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
+            archive
+
+      - name: Subir a App Store Connect
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          cat > "$RUNNER_TEMP/ExportOptions.plist" <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>$APPLE_TEAM_ID</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>uploadSymbols</key><true/>
+          </dict></plist>
+          EOF
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/App.xcarchive" \
+            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" -exportPath "$RUNNER_TEMP/export" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID"
+          echo "### Build ${{ inputs.version }} (${{ github.run_number }}) enviado a App Store Connect" >> "$GITHUB_STEP_SUMMARY"
+          echo "Aparece en TestFlight en 10–30 minutos, cuando Apple termine de procesarlo." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Borrar llave
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/keys"

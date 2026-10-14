@@ -100,6 +100,18 @@ export class Store {
     const list = (JSON.parse(u.cosmetics) as string[]).filter(x => x !== item);
     this.db.prepare('UPDATE users SET cosmetics = ? WHERE id = ?').run(JSON.stringify(list), id);
   }
+  /** Elimina la cuenta (requisito de App Store 5.1.1(v) y Google Play). Las compras y partidas quedan anonimizadas para contabilidad. */
+  deleteUser(id: string) {
+    this.db.exec('BEGIN');
+    try {
+      this.db.prepare('DELETE FROM friends WHERE user_id = ? OR friend_id = ?').run(id, id);
+      this.db.prepare('DELETE FROM logins WHERE user_id = ?').run(id);
+      this.db.prepare("UPDATE match_players SET user_id = 'deleted' WHERE user_id = ?").run(id);
+      this.db.prepare("UPDATE purchases SET user_id = 'deleted' WHERE user_id = ?").run(id);
+      this.db.prepare('DELETE FROM users WHERE id = ?').run(id);
+      this.db.exec('COMMIT');
+    } catch (e) { this.db.exec('ROLLBACK'); throw e; }
+  }
   recordLogin(userId: string) { this.db.prepare('INSERT INTO logins VALUES (?, ?)').run(userId, Date.now()); }
   listUsers(limit = 100, offset = 0) {
     return this.db.prepare('SELECT id, username, role, banned, rating, created_at, wallet, adult_declared, kyc_status FROM users ORDER BY created_at DESC LIMIT ? OFFSET ?').all(limit, offset);

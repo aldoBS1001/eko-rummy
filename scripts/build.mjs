@@ -12,7 +12,7 @@ await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
 await cp(join(web, 'public'), dist, { recursive: true });
 
-const common = { define: { __DEFAULT_SERVER__: JSON.stringify(process.env.EKO_SERVER_URL ?? '') }, bundle: true, minify: true, format: 'esm', target: 'es2020', sourcemap: false, legalComments: 'none', logLevel: 'warning' };
+const common = { define: { __DEFAULT_SERVER__: JSON.stringify(process.env.EKO_SERVER_URL ?? ''), __STORE_BUILD__: JSON.stringify(process.env.EKO_STORE_BUILD === '1') }, bundle: true, minify: true, format: 'esm', target: 'es2020', sourcemap: false, legalComments: 'none', logLevel: 'warning' };
 await build({ ...common, entryPoints: { app: join(web, 'src/main.ts'), admin: join(web, 'src/admin.ts'), kyc: join(web, 'src/kyc.ts') }, outdir: dist });
 
 const html = await readFile(join(web, 'index.html'), 'utf8');

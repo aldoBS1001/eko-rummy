@@ -117,6 +117,17 @@ export function createApp(cfg: Config, store = new Store(cfg.dbPath)) {
       kyc: { status: u.kyc_status, enabled: kycEnabled(cfg) } };
   });
 
+  route('DELETE', '/api/me', async req => {
+    const p = registered(req);
+    const { password } = await json(req);
+    const u = store.userById(p.sub);
+    if (!u || typeof password !== 'string' || !verifyPassword(password, u.pass_hash)) throw new HttpError(403, 'Contraseña incorrecta');
+    if (u.role === 'admin') throw new HttpError(403, 'Una cuenta de administrador no se elimina desde la app');
+    store.deleteUser(u.id);
+    store.audit('account_delete', { user: u.id, ip: ipOf(req) });
+    return { ok: true };
+  });
+
   route('POST', '/api/legal/accept', async req => {
     const p = auth(req, false);
     const { version, adult } = await json(req);

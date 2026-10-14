@@ -12,6 +12,9 @@ import { EKOKIIN, connectWallet, readBalance, readTransfers, shortAddr, type Wal
 declare const __ASSETS__: Record<string, string>;
 const asset = (name: string) => (typeof __ASSETS__ !== 'undefined' && __ASSETS__[name]) || `img/${name}`;
 const VERSION = '1.0.0';
+declare const __STORE_BUILD__: boolean;
+/** Versión para App Store / Google Play: sin Web3, sin tienda con Stripe y sin KYC (guías 3.1.1, 3.1.5 y 5.3 de Apple). */
+const STORE_BUILD = typeof __STORE_BUILD__ !== 'undefined' && __STORE_BUILD__;
 
 const app = $('#app')!;
 let board: Board | null = null;
@@ -42,7 +45,7 @@ function route() {
     case 'equipos': return multiplayer(true);
     case 'sala': return joinRoom(b);
     case 'torneos': return tournaments();
-    case 'web3': return web3Screen();
+    case 'web3': return STORE_BUILD ? home() : web3Screen();
     case 'perfil': return profile();
     case 'configuracion': return config();
     case 'terminos': return termsScreen(b);
@@ -81,13 +84,13 @@ function legalGate(dismissable: boolean) {
     saveSettings();
     if (apiBase()) api('POST', '/api/legal/accept', { version: TERMS_VERSION, adult: !!adult }).catch(() => {});
     ov.remove();
-    toast(adult ? 'Listo. ¡A jugar!' : 'Listo. Puedes jugar gratis; Web3 queda oculto.');
+    toast(adult || STORE_BUILD ? 'Listo. ¡A jugar!' : 'Listo. Puedes jugar gratis; Web3 queda oculto.');
     if (board) board.render(); else route();
   } }, 'Continuar');
-  const minorNote = h('div', { class: 'notice', hidden: true }, 'Puedes jugar gratis contra la IA y en línea. La billetera Web3 y cualquier función con valor económico no estarán disponibles.');
+  const minorNote = h('div', { class: 'notice', hidden: true }, STORE_BUILD ? 'Puedes jugar gratis contra la IA y en línea.' : 'Puedes jugar gratis contra la IA y en línea. La billetera Web3 y cualquier función con valor económico no estarán disponibles.');
   const refresh = () => {
     cont.disabled = adult === null || !accepted;
-    minorNote.hidden = adult !== false;
+    minorNote.hidden = adult !== false || STORE_BUILD;
     ageSeg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String((b as HTMLElement).dataset.v === String(adult))));
   };
   const ageSeg = h('div', { class: 'seg', role: 'radiogroup', 'aria-label': 'Edad' },
@@ -98,10 +101,10 @@ function legalGate(dismissable: boolean) {
     h('div', { class: 'modal' },
       h('img', { src: asset('eko-logo.webp'), alt: "EKO K'iin", style: { height: '54px', width: 'auto', background: '#f4ecd6', borderRadius: '10px', padding: '4px 8px', justifySelf: 'start' } }),
       h('h2', {}, 'Antes de jugar'),
-      h('p', {}, 'EKO RUMMY es gratuito. Algunas funciones, como la billetera Web3, son solo para mayores de edad.'),
+      h('p', {}, STORE_BUILD ? 'EKO RUMMY es gratuito y de puro entretenimiento.' : 'EKO RUMMY es gratuito. Algunas funciones, como la billetera Web3, son solo para mayores de edad.'),
       h('span', { class: 'lbl' }, '¿Cuál es tu edad?'), ageSeg, minorNote,
       h('label', { for: 'acepto-terminos', class: 'row', style: { alignItems: 'flex-start', gap: '10px', cursor: 'pointer', flexWrap: 'nowrap' } }, chk,
-        h('span', {}, 'Declaro que la información es verdadera y acepto los ', h('a', { href: '#', onclick: (e: Event) => { e.preventDefault(); termsSheet(); } }, 'Términos y condiciones'), ', incluidas las condiciones sobre apuestas, y el aviso de privacidad.')),
+        h('span', {}, 'Declaro que la información es verdadera y acepto los ', h('a', { href: '#', onclick: (e: Event) => { e.preventDefault(); termsSheet(); } }, 'Términos y condiciones'), STORE_BUILD ? ' y el aviso de privacidad.' : ', incluidas las condiciones sobre apuestas, y el aviso de privacidad.')),
       h('div', { class: 'row' }, dismissable ? h('button', { class: 'btn ghost grow', onclick: () => ov.remove() }, 'Cancelar') : null, h('div', { class: 'grow', style: { display: 'grid' } }, cont)),
       h('p', { class: 'foot', style: { textAlign: 'left' } }, `Versión de términos ${TERMS_VERSION}.`)));
   document.body.append(ov);
@@ -147,7 +150,7 @@ function titleTiles() {
 }
 
 function home() {
-  const install = deferredInstall || isIOS() && !isStandalone();
+  const install = !STORE_BUILD && (deferredInstall || isIOS() && !isStandalone());
   app.replaceChildren(
     h('div', { class: 'home' },
       h('div', { class: 'home-top' },
@@ -163,9 +166,9 @@ function home() {
           h('button', { class: 'btn primary', onclick: () => go('/jugar') }, 'Jugar gratis', h('small', {}, 'contra la IA, sin conexión')),
           h('button', { class: 'btn', onclick: () => go('/multijugador') }, 'Multijugador', h('small', {}, '2 a 4 en línea')),
           h('button', { class: 'btn', onclick: () => go('/equipos') }, 'Equipos', h('small', {}, '2 contra 2')),
-          h('div', { class: 'menu-row' },
+          h('div', { class: 'menu-row', style: STORE_BUILD ? { gridTemplateColumns: '1fr 1fr' } : {} },
             h('button', { class: 'btn ghost', onclick: () => go('/torneos') }, 'Torneos'),
-            h('button', { class: 'btn ghost', onclick: () => go('/web3') }, 'Web3'),
+            STORE_BUILD ? null : h('button', { class: 'btn ghost', onclick: () => go('/web3') }, 'Web3'),
             h('button', { class: 'btn ghost', onclick: () => go('/perfil') }, 'Perfil')),
           h('div', { class: 'menu-row', style: { gridTemplateColumns: '1fr 1fr' } },
             h('button', { class: 'btn ghost', onclick: () => go('/tutorial') }, 'Aprender a jugar'),
@@ -643,7 +646,7 @@ async function profile() {
     };
     sections.push(h('section', { class: 'card' }, h('h3', {}, 'Cuenta'), h('p', {}, 'Con una cuenta entras a la clasificación mundial, guardas tu historial, agregas amigos y organizas torneos.'),
       u, p, h('div', { class: 'row' }, h('button', { class: 'btn ghost grow', onclick: () => doAuth('login') }, 'Iniciar sesión'), h('button', { class: 'btn primary grow', onclick: () => doAuth('register') }, 'Crear cuenta'))));
-    sections.push(await kycCard());
+    if (!STORE_BUILD) sections.push(await kycCard());
   } else {
     try {
       const me = await api('GET', '/api/me');
@@ -655,8 +658,9 @@ async function profile() {
           h('div', { class: 'menu-row' }, h('div', {}, h('span', { class: 'lbl' }, 'Partidas'), h('div', { class: 'display', style: { fontSize: '26px' } }, String(st.played ?? 0))),
             h('div', {}, h('span', { class: 'lbl' }, 'Victorias'), h('div', { class: 'display', style: { fontSize: '26px' } }, String(st.wins ?? 0))),
             h('div', {}, h('span', { class: 'lbl' }, 'Mejor puntaje'), h('div', { class: 'display', style: { fontSize: '26px' } }, String(st.best ?? 0)))),
-          me.user.role === 'admin' ? h('a', { class: 'btn small ghost', href: 'admin.html' }, 'Abrir panel administrativo') : null,
-          h('button', { class: 'btn small ghost', onclick: () => { setSession(null); conn?.close(); conn = null; profile(); } }, 'Cerrar sesión')),
+          me.user.role === 'admin' && !STORE_BUILD ? h('a', { class: 'btn small ghost', href: 'admin.html' }, 'Abrir panel administrativo') : null,
+          h('button', { class: 'btn small ghost', onclick: () => { setSession(null); conn?.close(); conn = null; profile(); } }, 'Cerrar sesión'),
+          me.user.role !== 'admin' ? h('button', { class: 'btn small ghost', style: { color: 'var(--danger, #ff6b5e)' }, onclick: deleteAccount }, 'Eliminar mi cuenta') : null),
         h('section', { class: 'card' }, h('h3', {}, 'Amigos'),
           h('form', { class: 'row', onsubmit: async (e: Event) => { e.preventDefault(); try { await api('POST', '/api/friends', { username: fIn.value.trim() }); toast('Amigo agregado'); profile(); } catch (er) { toast((er as Error).message, true); } } }, h('div', { class: 'grow' }, fIn), h('button', { class: 'btn' }, 'Agregar')),
           h('div', { class: 'list' }, ...(friends.friends.length ? friends.friends.map((f: any) => h('div', { class: 'list-item' }, h('span', { class: 'grow' }, f.username), h('span', { class: 'pill' }, f.online ? 'En línea' : 'Desconectado'),
@@ -664,8 +668,10 @@ async function profile() {
             : [h('p', {}, 'Aún no tienes amigos agregados.')]))),
         h('section', { class: 'card' }, h('h3', {}, 'Historial'), h('div', { class: 'list' }, ...(hist.history.length ? hist.history.map((x: any) => h('div', { class: 'list-item' }, h('span', { class: 'grow' }, new Date(x.ended_at).toLocaleString()), h('span', { class: 'pill' }, x.mode), h('b', {}, x.won ? 'Victoria' : `${x.score} pts`))) : [h('p', {}, 'Juega en línea para construir tu historial.')]))),
       );
-      sections.push(await kycCard());
-      sections.push(await shopCard(me.user.cosmetics ?? []));
+      if (!STORE_BUILD) {
+        sections.push(await kycCard());
+        sections.push(await shopCard(me.user.cosmetics ?? []));
+      }
     } catch (e) { sections.push(h('p', {}, (e as Error).message)); }
   }
   try {
@@ -675,6 +681,22 @@ async function profile() {
         h('tbody', {}, ...lb.leaderboard.slice(0, 20).map((r: any, i: number) => h('tr', {}, h('td', {}, String(i + 1)), h('td', {}, r.username), h('td', { class: 'num' }, String(r.wins)), h('td', { class: 'num' }, String(r.rating))))))));
   } catch {}
   screen('Perfil', ...sections);
+}
+
+function deleteAccount() {
+  const pass = h('input', { type: 'password', placeholder: 'Tu contraseña', autocomplete: 'current-password', 'aria-label': 'Contraseña' });
+  const ov = h('div', { class: 'overlay' },
+    h('div', { class: 'modal' },
+      h('h2', {}, 'Eliminar mi cuenta'),
+      h('p', {}, 'Se borran tu cuenta, tus amigos y tu historial personal. Esta acción no se puede deshacer.'),
+      pass,
+      h('div', { class: 'row' },
+        h('button', { class: 'btn ghost grow', onclick: () => ov.remove() }, 'Cancelar'),
+        h('button', { class: 'btn primary grow', onclick: async () => {
+          try { await api('DELETE', '/api/me', { password: (pass as HTMLInputElement).value }); setSession(null); conn?.close(); conn = null; ov.remove(); toast('Tu cuenta fue eliminada'); profile(); }
+          catch (e) { toast((e as Error).message, true); }
+        } }, 'Eliminar'))));
+  document.body.append(ov);
 }
 
 async function shopCard(owned: string[]) {
@@ -704,7 +726,7 @@ function config() {
     h('section', { class: 'card' }, h('h3', {}, 'Edad y términos'),
       h('p', {}, settings.legal ? `Declaraste ser ${settings.legal.adult ? 'mayor' : 'menor'} de 18 años y aceptaste los términos el ${new Date(settings.legal.at).toLocaleDateString('es-MX')}.` : 'Aún no aceptas los términos.'),
       h('div', { class: 'row' }, h('button', { class: 'btn ghost grow', onclick: () => go('/terminos') }, 'Ver términos'), h('button', { class: 'btn ghost grow', onclick: () => legalGate(true) }, 'Cambiar declaración'))),
-    h('section', { class: 'card' }, h('h3', {}, 'Instalar en tu dispositivo'), h('p', {}, 'EKO RUMMY se instala como app en iPhone, Android y Windows, con ícono propio y pantalla completa.'), h('button', { class: 'btn', onclick: installApp }, 'Cómo instalar')),
+    STORE_BUILD ? null : h('section', { class: 'card' }, h('h3', {}, 'Instalar en tu dispositivo'), h('p', {}, 'EKO RUMMY se instala como app en iPhone, Android y Windows, con ícono propio y pantalla completa.'), h('button', { class: 'btn', onclick: installApp }, 'Cómo instalar')),
     h('section', { class: 'card' }, h('h3', {}, 'Reglas'),
       h('p', {}, '106 fichas: números del 1 al 13 en cuatro colores, dos de cada una, y dos comodines. Cada quien recibe 14. Grupos: mismo número, colores distintos (3 o 4). Escaleras: números seguidos del mismo color (3 o más; el 1 solo va abajo). La primera jugada debe sumar 30 puntos con fichas propias. Después puedes reorganizar la mesa si al terminar todo es válido. Si no juegas, robas una. Al terminar, cada ficha restante resta su valor y cada comodín resta 30.'),
       h('button', { class: 'btn ghost', onclick: () => go('/tutorial') }, 'Repetir tutorial')),

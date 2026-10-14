@@ -21,10 +21,14 @@ El mismo código se empaqueta sin reescribirlo:
 2. Google Play: cuenta de Google Play Console; sube el `.aab` y el archivo `assetlinks.json` que genera PWABuilder en `/.well-known/` del dominio.
 3. Microsoft Store: cuenta de Partner Center; sube el `.msix`.
 
-**App Store — Capacitor**
-1. En una Mac con Xcode: `npm i @capacitor/core @capacitor/cli @capacitor/ios && npx cap init "EKO RUMMY" com.businessshop.ekorummy --web-dir apps/web/dist && npx cap add ios`.
-2. Configura en Ajustes del juego la URL del servidor (o fija `serverUrl`) porque la app empaquetada no está en el mismo dominio.
-3. Firma con la cuenta de Apple Developer de Business Shop A&A y envía a revisión.
+**App Store — Capacitor, compilado en GitHub (sin Mac)**
+El flujo `.github/workflows/ios.yml` genera el proyecto iOS con Capacitor, lo firma con firma automática y lo sube a App Store Connect.
+1. developer.apple.com → Identifiers → registra `com.businessshop.ekorummy`.
+2. App Store Connect → Apps → + → Nueva app con ese Bundle ID.
+3. App Store Connect → Usuarios y acceso → Integraciones → crea una llave de API con acceso **Admin** y guarda en GitHub Secrets: `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_P8`, `APPLE_TEAM_ID` y `EKO_SERVER_URL`.
+4. GitHub → Actions → **iOS · App Store** → Run workflow. El build aparece en TestFlight en 10–30 min.
+
+La versión para tiendas se compila con `EKO_STORE_BUILD=1`: oculta Web3, la tienda con Stripe, KYC y el panel administrativo, y agrega **Eliminar mi cuenta** (obligatorio en App Store y Google Play).
 
 **Antes de enviar a revisión**
 - Apple y Google limitan las funciones con criptomonedas y prohíben juegos con dinero real sin licencia. La versión para tiendas debe salir con el módulo económico bloqueado (como está) y conviene ocultar la sección Web3 en iOS hasta revisar las guías 3.1.5 y 5.3 de Apple.
