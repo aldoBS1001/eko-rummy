@@ -1,0 +1,19 @@
+node_modules/
+data/
+backups/
+build/
+apps/web/dist/
+.env
+compliance/approvals.json
+# llaves de firma: nunca al repositorio
+installers/android/*.keystore
+installers/android/keystore-password.txt
+*.jks
+*.pem
+*.key
+# salidas de compilación de instaladores
+installers/windows/out/
+installers/android/out/
+*.exe
+*.apk
+*.syso

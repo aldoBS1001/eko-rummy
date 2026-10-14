@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Reglas de EKO RUMMY</title><link rel="stylesheet" href="print.css"></head>
+<body>
+<section class="cover">
+  <div class="logos"><img src="eko-logo.webp" alt="EKO K'iin"><img src="business-shop.webp" alt="Business Shop"></div>
+  <div>
+    <h1>Reglas de<br>EKO RUMMY</h1>
+    <p class="sub">Arma grupos y escaleras, reorganiza la mesa y quédate sin fichas antes que nadie.</p>
+    <div class="tiles" data-t="1c0 2c0 3c0 J 5c0" style="margin-top:14pt"></div>
+  </div>
+  <p class="meta">Versión 1.0 · Octubre 2026 · 2 a 4 jugadores o 2 equipos de 2</p>
+  <img class="guide" src="guia.webp" alt="">
+</section>
+
+<h2 style="margin-top:0;border-top:0;padding-top:0">Objetivo</h2>
+<p>Ser el primero en colocar todas tus fichas en la mesa formando combinaciones válidas. Cuando alguien se queda sin fichas termina la ronda y los demás pierden puntos por lo que les quedó.</p>
+
+<h2>Las fichas</h2>
+<p>Hay 106 fichas: los números del 1 al 13 en cuatro colores, dos de cada una, y 2 comodines. Cada color tiene su símbolo para distinguirlo aunque no veas bien los colores.</p>
+<table>
+  <tr><th>Color</th><th>Símbolo</th><th>Ejemplo</th></tr>
+  <tr><td>Jade</td><td>Hoja</td><td><span class="tiles" data-t="7c0"></span></td></tr>
+  <tr><td>Sol</td><td>Sol</td><td><span class="tiles" data-t="7c1"></span></td></tr>
+  <tr><td>Coral</td><td>Gota</td><td><span class="tiles" data-t="7c2"></span></td></tr>
+  <tr><td>Noche</td><td>Luna</td><td><span class="tiles" data-t="7c3"></span></td></tr>
+  <tr><td>Comodín</td><td>Rayo de EKO</td><td><span class="tiles" data-t="J"></span></td></tr>
+</table>
+
+<h2>Preparación</h2>
+<ul>
+  <li>Cada jugador recibe 14 fichas en su atril. Solo tú ves las tuyas.</li>
+  <li>Las demás forman el pozo, boca abajo y revuelto al azar.</li>
+  <li>Juega primero el asiento 1; en cada ronda nueva empieza el siguiente jugador.</li>
+</ul>
+
+<h2>Las combinaciones</h2>
+<div class="blk"><h3>Grupo: mismo número, colores distintos</h3>
+<p>De 3 o 4 fichas. No puede repetirse un color.</p>
+<div class="ex">
+  <div><span class="set" data-t="8c0 8c1 8c2"></span><span class="set" data-t="11c0 11c1 11c2 11c3"></span></div>
+  <div class="cap">Válidos: tres 8 de colores distintos; cuatro 11.</div>
+  <div><span class="set bad" data-t="8c0 8c0 8c2"></span></div>
+  <div class="cap">No válido: repite el color Jade.</div>
+</div></div>
+<div class="blk"><h3>Escalera: números seguidos del mismo color</h3>
+<p>De 3 fichas en adelante. El 1 solo puede ir abajo: 1-2-3 sí, 12-13-1 no.</p>
+<div class="ex">
+  <div><span class="set" data-t="3c2 4c2 5c2"></span><span class="set" data-t="9c3 10c3 11c3 12c3 13c3"></span></div>
+  <div class="cap">Válidas.</div>
+  <div><span class="set bad" data-t="4c1 5c2 6c1"></span><span class="set bad" data-t="12c0 13c0 1c0"></span></div>
+  <div class="cap">No válidas: mezcla colores; el 1 después del 13.</div>
+</div></div>
+
+<h2>Tu primera jugada: la apertura de 30</h2>
+<p>La primera vez que bajas fichas, todas deben ser tuyas y sumar al menos 30 puntos. Cada ficha vale su número; el comodín vale el número que reemplaza. Mientras no abras, no puedes tocar lo que hay en la mesa.</p>
+<div class="ex">
+  <div><span class="set" data-t="10c0 11c0 12c0"></span><span class="set" data-t="7c1 7c2 7c3"></span></div>
+  <div class="cap">10 + 11 + 12 + 7 + 7 + 7 = 54 puntos: apertura válida.</div>
+</div>
+
+<h2>Tu turno</h2>
+<p>En cada turno haces una de dos cosas:</p>
+<ol>
+  <li><b>Jugar:</b> colocar una o más fichas de tu atril, en combinaciones nuevas o agregándolas a las de la mesa.</li>
+  <li><b>Robar:</b> si no puedes o no quieres jugar, tomas una ficha del pozo y pasa el turno.</li>
+</ol>
+<p>Al terminar tu turno, todas las combinaciones de la mesa deben ser válidas. Si algo no cuadra, el juego te avisa en rojo y no te deja terminar; puedes deshacer o reiniciar el turno.</p>
+
+<h2>Reorganizar la mesa</h2>
+<p>Después de abrir, puedes mover las fichas de la mesa como quieras: dividir escaleras, quitar fichas de un grupo de cuatro o armar combinaciones nuevas. La única condición es que al final todo sea válido y que hayas colocado al menos una ficha tuya. Las fichas de la mesa nunca regresan a tu atril.</p>
+<div class="ex">
+  <div><span class="set" data-t="3c0 4c0 5c0 6c0 7c0 8c0 9c0"></span> + de tu atril <span class="set" data-t="6c1 6c2"></span></div>
+  <div><span class="set" data-t="3c0 4c0 5c0"></span><span class="set" data-t="6c0 6c1 6c2"></span><span class="set" data-t="7c0 8c0 9c0"></span></div>
+  <div class="cap">Partes la escalera en dos y usas el 6 Jade para formar un grupo con tus dos 6.</div>
+</div>
+
+<h2>El comodín</h2>
+<ul>
+  <li>Reemplaza cualquier ficha en un grupo o una escalera. Una combinación puede llevar hasta dos comodines, pero siempre al menos una ficha real.</li>
+  <li>Puedes recuperar un comodín de la mesa poniendo en su lugar la ficha que representa (o reorganizando), y debes usarlo en ese mismo turno. No puedes guardarlo en tu atril.</li>
+  <li>Si una escalera tiene comodines sobrantes en las orillas, cuentan hacia arriba; si ya llega al 13, hacia abajo.</li>
+</ul>
+<div class="ex">
+  <div><span class="set" data-t="4c3 J 6c3"></span> + tu <span class="tiles" style="display:inline-flex" data-t="5c3"></span> → <span class="set" data-t="4c3 5c3 6c3"></span><span class="set" data-t="9c0 9c1 J"></span></div>
+  <div class="cap">Pones tu 5 Noche en lugar del comodín y lo usas en un grupo de 9 con tus dos nueves.</div>
+</div>
+
+<div class="blk"><h2>Fin de la ronda y puntos</h2>
+<ul>
+  <li>Termina cuando un jugador coloca su última ficha.</li>
+  <li>Cada rival pierde la suma de sus fichas restantes. Cada comodín que le quede resta 30.</li>
+  <li>El ganador suma todo lo que perdieron los demás.</li>
+</ul>
+<table>
+  <tr><th>Jugador</th><th>Le quedó</th><th>Puntos</th></tr>
+  <tr><td>Ana</td><td>Nada: cerró la ronda</td><td>+57</td></tr>
+  <tr><td>Beto</td><td><span class="tiles" data-t="5c1 9c2 J"></span></td><td>−44 (5 + 9 + 30)</td></tr>
+  <tr><td>Caro</td><td><span class="tiles" data-t="2c0 11c3"></span></td><td>−13</td></tr>
+</table></div>
+
+<h3>Si se acaba el pozo</h3>
+<p>Quien no puede jugar pasa. Si todos pasan una vuelta completa, la ronda se bloquea: gana quien tenga menos puntos en su atril y cada rival paga la diferencia.</p>
+
+<h3>Varias rondas</h3>
+<p>Las partidas pueden ser de 1, 3 o 5 rondas. Los puntos se acumulan y gana quien termine con más.</p>
+
+<h2>Equipos: 2 contra 2</h2>
+<ul>
+  <li>Los compañeros se sientan alternados, así los turnos van equipo A, equipo B, equipo A, equipo B.</li>
+  <li>Cada quien juega con su propio atril y abre con sus propios 30 puntos.</li>
+  <li>Cuando un jugador cierra, gana su equipo: los dos rivales restan sus fichas y el que cerró suma ese total. Su compañero no suma ni resta.</li>
+  <li>Si la ronda se bloquea, gana el equipo con menos puntos en sus atriles.</li>
+</ul>
+
+<h2>Tiempo, ausencias y juego limpio</h2>
+<ul>
+  <li><b>Tiempo por turno:</b> si se acaba, lo que moviste se deshace y robas una ficha de castigo.</li>
+  <li><b>Inactividad:</b> tres turnos seguidos sin jugar y la IA ocupa tu lugar.</li>
+  <li><b>Desconexión:</b> tu lugar te espera un minuto. Si vuelves, sigues con tus mismas fichas; si no, la IA juega por ti.</li>
+  <li>El servidor revisa cada jugada. Nadie puede ver tus fichas ni el orden del pozo.</li>
+  <li>El chat es respetuoso: se bloquean insultos y enlaces. Puedes reportar a un jugador.</li>
+</ul>
+
+<h2>Modos de juego</h2>
+<table>
+  <tr><th>Modo</th><th>Cómo es</th></tr>
+  <tr><td>Jugar gratis</td><td>Contra 1 a 3 rivales de IA (principiante, intermedio, avanzado o experto). Funciona sin internet y sin cuenta.</td></tr>
+  <tr><td>Multijugador</td><td>Partida rápida con jugadores de todo el mundo o sala privada con código para tus amigos. Si faltan jugadores, la IA completa la mesa.</td></tr>
+  <tr><td>Equipos</td><td>2 contra 2, en línea o contra la IA.</td></tr>
+  <tr><td>Torneos</td><td>Eliminación directa de 4 u 8 jugadores. Gratuitos y sin premios en dinero.</td></tr>
+</table>
+
+<h2>Cómo se juega en la pantalla</h2>
+<ul>
+  <li><b>Tocar</b> una ficha la selecciona; toca la zona de la mesa o el botón + de una combinación para colocarla.</li>
+  <li><b>Arrastrar</b> funciona con el dedo o con el mouse.</li>
+  <li><b>Deshacer</b> retrocede un movimiento; <b>Ordenar</b> acomoda tu atril por color o por número.</li>
+  <li><b>Pista</b> (solo contra la IA) ilumina las fichas que puedes jugar; tócala otra vez para colocarlas.</li>
+  <li>El botón principal dice <b>Robar ficha</b> si no has colocado nada y <b>Terminar turno</b> cuando tu jugada es válida.</li>
+</ul>
+<p class="foot">EKO RUMMY es un juego gratuito de entretenimiento de Business Shop y EKO K'iin. No requiere compras ni billetera digital para jugar.</p>
+<script src="tiles.js"></script>
+</body></html>

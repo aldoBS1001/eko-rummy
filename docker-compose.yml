@@ -1,0 +1,30 @@
+# Producción en un servidor: app + proxy HTTPS automático (Caddy con Let's Encrypt).
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - eko-data:/data
+      - ./compliance:/app/compliance:ro
+    expose: ["8080"]
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports: ["80:80", "443:443"]
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+    depends_on: [app]
+  backup:
+    image: alpine:3.20
+    restart: unless-stopped
+    volumes:
+      - eko-data:/data:ro
+      - ./backups:/backups
+    command: sh -c "apk add --no-cache sqlite >/dev/null; while true; do sqlite3 /data/eko-rummy.sqlite \".backup /backups/eko-$$(date +%Y%m%d-%H%M).sqlite\"; find /backups -name 'eko-*.sqlite' -mtime +14 -delete; sleep 21600; done"
+volumes:
+  eko-data:
+  caddy-data:

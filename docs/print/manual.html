@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Manual de instalación de EKO RUMMY</title><link rel="stylesheet" href="print.css"></head>
+<body>
+<section class="cover">
+  <div class="logos"><img src="eko-logo.webp" alt="EKO K'iin"><img src="business-shop.webp" alt="Business Shop"></div>
+  <div>
+    <h1>Manual de<br>instalación</h1>
+    <p class="sub">EKO RUMMY en Windows, Android y iPhone, y el servidor para jugar en línea.</p>
+  </div>
+  <p class="meta">Versión 1.0 · Octubre 2026</p>
+  <img class="guide" src="guia.webp" alt="">
+</section>
+
+<h2 style="margin-top:0;border-top:0;padding-top:0">Contenido de la carpeta</h2>
+<table>
+  <tr><th>Carpeta</th><th>Qué contiene</th><th>Estado</th></tr>
+  <tr><td>1 · Windows</td><td><code>EKO RUMMY Instalador.exe</code>: instala el juego con su ícono en el menú Inicio y el escritorio.</td><td>Listo. Juega contra la IA sin internet.</td></tr>
+  <tr><td>2 · Android</td><td><code>EKO-RUMMY.apk</code>: se instala directo en el teléfono, sin Google Play.</td><td>Listo para probar. Juega contra la IA sin internet.</td></tr>
+  <tr><td>3 · iPhone</td><td>Instrucciones. En iPhone se instala desde Safari con "Agregar a pantalla de inicio".</td><td>Requiere publicar el servidor (sección 5).</td></tr>
+  <tr><td>4 · Servidor</td><td>El proyecto completo listo para publicar: el juego web, el servidor multijugador y el panel de administración.</td><td>Listo para subir a un servidor con dominio.</td></tr>
+  <tr><td>Documentos</td><td>Este manual y las reglas del juego.</td><td></td></tr>
+</table>
+<div class="note">Por qué iPhone no trae un archivo instalador: un <code>.ipa</code> exige una Mac con Xcode y la firma de la cuenta de Apple Developer de Business Shop, y Apple no permite instalar apps fuera de la App Store o TestFlight. Mientras tanto, en iPhone el juego se instala desde Safari con ícono propio y pantalla completa. La sección 7 explica cómo llevarlo a las tiendas.</div>
+
+<h2>1. Requisitos</h2>
+<table>
+  <tr><th>Dispositivo</th><th>Mínimo</th></tr>
+  <tr><td>Windows</td><td>Windows 10 u 11 de 64 bits, con Microsoft Edge (viene incluido) o Google Chrome.</td></tr>
+  <tr><td>Android</td><td>Android 8 o superior con Google Chrome.</td></tr>
+  <tr><td>iPhone / iPad</td><td>iOS 16.4 o superior con Safari.</td></tr>
+  <tr><td>Servidor</td><td>Linux con Docker, o Node.js 22.18+; un dominio con HTTPS.</td></tr>
+</table>
+
+<h2>2. Windows</h2>
+<div class="device"><div class="ic">W</div><div>
+<h3 style="margin-top:0">Instalar</h3>
+<ol class="steps">
+  <li>Copia <code>EKO RUMMY Instalador.exe</code> a la computadora y ábrelo con doble clic.</li>
+  <li>Si aparece <b>"Windows protegió su PC"</b>, haz clic en <b>Más información</b> y luego en <b>Ejecutar de todas formas</b>. El aviso sale porque el archivo aún no tiene firma digital de empresa.</li>
+  <li>Confirma <b>Sí</b> en la pregunta "¿Instalar EKO RUMMY en este equipo?".</li>
+  <li>El juego se instala en tu usuario (no pide permisos de administrador), crea accesos en el menú Inicio y el escritorio, y se abre en su propia ventana.</li>
+</ol>
+<h3>Usar</h3>
+<p>Ábrelo desde el menú Inicio o el ícono del escritorio. La partida contra la IA, el tutorial y los equipos contra la IA funcionan sin internet. Tus ajustes y tu nombre se guardan entre sesiones.</p>
+<h3>Jugar en línea desde Windows</h3>
+<p>Cuando el servidor esté publicado, abre <b>Configuración › Avanzado</b>, escribe su dirección (por ejemplo <code>https://juego.ekokiin.com</code>) y toca <b>Guardar servidor</b>. Desde ese momento se activan Multijugador, Equipos en línea, Torneos y Perfil.</p>
+<h3>Desinstalar</h3>
+<p><b>Configuración de Windows › Aplicaciones › Aplicaciones instaladas › EKO RUMMY › Desinstalar</b>. Se borran el juego, los accesos directos y el progreso local.</p>
+<h3>Opciones avanzadas</h3>
+<table>
+  <tr><th>Comando</th><th>Efecto</th></tr>
+  <tr><td><code>"EKO RUMMY Instalador.exe" --portatil</code></td><td>Abre el juego sin instalarlo.</td></tr>
+  <tr><td><code>"EKO RUMMY.exe" --desinstalar --silencioso</code></td><td>Desinstala sin preguntas (para equipos administrados).</td></tr>
+</table>
+<p>Ubicación: <code>%LOCALAPPDATA%\Programs\EKO RUMMY</code>. El juego usa el puerto local 47831, solo dentro del equipo.</p>
+</div></div>
+
+<h2>3. Android</h2>
+<div class="device"><div class="ic">A</div><div>
+<h3 style="margin-top:0">Instalar el APK</h3>
+<ol class="steps">
+  <li>Pasa <code>EKO-RUMMY.apk</code> al teléfono: por WhatsApp a ti mismo, Google Drive, correo o cable USB.</li>
+  <li>Tócalo para abrirlo. Android pedirá permiso para instalar apps de esa fuente (Chrome, Archivos, WhatsApp…): toca <b>Configuración</b>, activa <b>Permitir de esta fuente</b> y regresa.</li>
+  <li>Toca <b>Instalar</b>. Si Play Protect avisa que la app es de un desarrollador desconocido o fue creada para una versión anterior de Android, toca <b>Más detalles › Instalar de todas formas</b>.</li>
+  <li>Abre <b>EKO RUMMY</b> desde tu cajón de aplicaciones.</li>
+</ol>
+<p>Funciona contra la IA sin internet, con el tutorial y los equipos contra la IA. El botón Atrás del teléfono regresa a la pantalla anterior del juego. Para jugar en línea, escribe la dirección del servidor en <b>Configuración › Avanzado</b> (igual que en Windows). Para desinstalar, mantén presionado el ícono y elige <b>Desinstalar</b>.</p>
+<div class="note warn">Este APK se construyó sin el kit oficial de Android (no estaba disponible en el entorno de desarrollo). Se verificaron su firma, su código y su manifiesto con un lector independiente, y el juego que contiene se probó en emulación de Android, pero <b>no se ha instalado todavía en un teléfono real</b>. Si Android muestra "Hubo un problema al analizar el paquete" o la app se cierra al abrir, usa la opción web de abajo y avisa para corregirlo.</div>
+<h3>Opción web (cuando el servidor esté publicado)</h3>
+<ol class="steps">
+  <li>Abre la dirección del juego en <b>Google Chrome</b> (sección 5).</li>
+  <li>Toca <b>Instalar app</b> en la pantalla de inicio del juego, o en el menú <b>⋮</b> elige <b>Instalar app</b>.</li>
+</ol>
+<p>Para usar el token EKOKIIN en Android, abre el juego dentro del navegador de la app <b>TronLink</b>.</p>
+<h3>Llave de firma</h3>
+<p>La carpeta <b>Llave de firma Android</b> contiene la llave con la que se firmó el APK. Guárdala en un lugar seguro y no la compartas: cada actualización futura debe firmarse con esa misma llave, o Android no la aceptará como actualización.</p>
+</div></div>
+
+<h2>4. iPhone y iPad</h2>
+<div class="device"><div class="ic">i</div><div>
+<ol class="steps">
+  <li>Abre la dirección del juego en <b>Safari</b> (no funciona desde Chrome en iPhone).</li>
+  <li>Toca el botón <b>Compartir</b> (el cuadro con la flecha hacia arriba).</li>
+  <li>Elige <b>Agregar a pantalla de inicio</b> y luego <b>Agregar</b>.</li>
+  <li>Abre EKO RUMMY desde su ícono: se ve a pantalla completa, sin barras del navegador.</li>
+</ol>
+<p>Para desinstalar, mantén presionado el ícono y elige <b>Eliminar app</b>. Para el modo Web3 en iPhone, abre el juego desde el navegador de la app TronLink.</p>
+</div></div>
+
+<h2>5. Publicar el servidor</h2>
+<p>El servidor hace posible jugar en línea, instalar en Android y iPhone, y administrar el juego. Está en la carpeta <b>4 · Servidor</b>.</p>
+<h3>Con Docker (recomendado)</h3>
+<ol class="steps">
+  <li>Contrata un servidor Linux (2 GB de RAM bastan para empezar) y apunta tu dominio a su IP.</li>
+  <li>Sube y descomprime el proyecto. Copia <code>.env.example</code> como <code>.env</code> y completa:
+    <pre>DOMAIN=juego.ekokiin.com
+PUBLIC_URL=https://juego.ekokiin.com
+AUTH_SECRET=   (64 caracteres al azar: openssl rand -hex 32)
+ADMIN_USERS=aldo</pre></li>
+  <li>Ejecuta <code>docker compose up -d --build</code>. Caddy obtiene el certificado HTTPS automáticamente.</li>
+  <li>Abre <code>https://TU-DOMINIO</code>, crea en <b>Perfil</b> la cuenta indicada en <code>ADMIN_USERS</code> y entra al panel en <code>https://TU-DOMINIO/admin.html</code>.</li>
+</ol>
+<p>La base de datos se respalda cada 6 horas en la carpeta <code>backups</code> y se conservan 14 días. Si el servidor se reinicia, las partidas en curso continúan donde se quedaron.</p>
+<div class="note">Los archivos Docker se escribieron sin poder construirlos en el entorno de desarrollo. En la primera instalación, confirma con <code>docker compose ps</code> que el servicio <code>app</code> aparezca como <i>healthy</i>.</div>
+<h3>Sin Docker</h3>
+<pre>npm install --omit=dev
+npm run build
+NODE_ENV=production node apps/server/src/index.ts</pre>
+<p>Pon delante un proxy con HTTPS (Caddy o Nginx) que también reenvíe <code>/ws</code>, que es la conexión en tiempo real.</p>
+
+<h3>Pagos con Stripe (opcional)</h3>
+<ol class="steps">
+  <li>En Stripe crea un webhook a <code>https://TU-DOMINIO/api/stripe/webhook</code> con los eventos <code>checkout.session.completed</code>, <code>checkout.session.async_payment_succeeded</code>, <code>checkout.session.expired</code> y <code>charge.refunded</code>.</li>
+  <li>Pon en <code>.env</code> la clave <code>STRIPE_SECRET_KEY=sk_test_…</code> y el secreto <code>STRIPE_WEBHOOK_SECRET=whsec_…</code>.</li>
+  <li>Prueba una compra con la tarjeta 4242 4242 4242 4242. Para cobrar de verdad cambia a la clave <code>sk_live_…</code> y agrega <code>STRIPE_LIVE_APPROVED=true</code>.</li>
+</ol>
+
+<h3>Apuntar el instalador de Windows a tu servidor</h3>
+<p>Para que el .exe ya traiga tu dirección y no haya que escribirla en Configuración, recompílalo con <code>EKO_SERVER_URL=https://TU-DOMINIO npm run build</code> y luego <code>installers/windows/build.sh</code>.</p>
+
+<h2>6. Problemas comunes</h2>
+<table>
+  <tr><th>Situación</th><th>Solución</th></tr>
+  <tr><td>Windows no deja abrir el instalador</td><td>Más información › Ejecutar de todas formas. Para quitar el aviso de forma permanente, firma el .exe con un certificado de firma de código a nombre de Business Shop.</td></tr>
+  <tr><td>"El puerto 47831 está ocupado"</td><td>Otro programa usa ese puerto. Ciérralo o reinicia la computadora.</td></tr>
+  <tr><td>En Android no aparece "Instalar app"</td><td>Debe abrirse en Chrome y desde una dirección con <code>https://</code>.</td></tr>
+  <tr><td>En iPhone no aparece "Agregar a pantalla de inicio"</td><td>Abre la dirección en Safari, no en otro navegador ni dentro de otra app.</td></tr>
+  <tr><td>Multijugador dice que el servidor no está disponible</td><td>Revisa la conexión a internet y que el servidor esté encendido (<code>https://TU-DOMINIO/api/health</code> debe responder).</td></tr>
+  <tr><td>Se cortó el internet a media partida</td><td>Vuelve a abrir el juego en menos de un minuto y regresas a tu lugar con tus fichas.</td></tr>
+  <tr><td>TronLink no se detecta</td><td>En Windows instala la extensión TronLink en Edge o Chrome. En el teléfono abre el juego desde el navegador de la app TronLink.</td></tr>
+</table>
+
+<h2>7. Siguiente paso: tiendas de aplicaciones</h2>
+<table>
+  <tr><th>Tienda</th><th>Cómo</th><th>Necesitas</th></tr>
+  <tr><td>Google Play</td><td>PWABuilder genera el paquete Android desde la dirección publicada, o Android Studio a partir del mismo juego. Google Play exige formato .aab y una versión de Android reciente.</td><td>Cuenta de Google Play Console.</td></tr>
+  <tr><td>Microsoft Store</td><td>PWABuilder genera el paquete MSIX. También puedes firmar el instalador .exe.</td><td>Cuenta de Partner Center; certificado de firma de código para el .exe.</td></tr>
+  <tr><td>App Store</td><td>Capacitor empaqueta el mismo juego en un proyecto de Xcode.</td><td>Una Mac con Xcode y la cuenta Apple Developer de Business Shop.</td></tr>
+</table>
+<div class="note warn">Apple y Google restringen funciones con criptomonedas y prohíben juegos con dinero real sin licencia. Las versiones para tiendas deben salir con el módulo de partidas con valor económico bloqueado (así viene) y, en iPhone, conviene ocultar la sección Web3 hasta revisar las reglas de Apple. Las compras dentro de apps de tienda deben usar el sistema de pagos de Apple o Google en lugar de Stripe.</div>
+<h2>8. Edad, términos y verificación de identidad</h2>
+<p>La primera vez que se abre el juego pide declarar la edad y aceptar los términos. Quien se declara menor puede jugar gratis, pero no ve la billetera Web3. Si cambias los términos, sube su versión y todos los volverán a aceptar.</p>
+<h3>Activar el KYC con Sumsub</h3>
+<ol class="steps">
+  <li>En el panel de Sumsub crea un nivel de verificación (identificación oficial y selfie con prueba de vida, edad mínima 18), por ejemplo <code>basic-kyc-level</code>.</li>
+  <li>En <b>Dev space › App tokens</b> genera el App Token y la Secret Key (primero en Sandbox).</li>
+  <li>En <b>Dev space › Webhooks</b> crea un webhook a <code>https://TU-DOMINIO/api/kyc/webhook</code> con firma <code>HMAC_SHA256_HEX</code> y los eventos <code>applicantCreated</code>, <code>applicantPending</code>, <code>applicantReviewed</code>, <code>applicantOnHold</code> y <code>applicantReset</code>.</li>
+  <li>Agrega a <code>.env</code>: <code>SUMSUB_APP_TOKEN</code>, <code>SUMSUB_SECRET_KEY</code>, <code>SUMSUB_WEBHOOK_SECRET</code> y <code>SUMSUB_LEVEL_NAME</code>. Reinicia el servidor.</li>
+</ol>
+<p>Los jugadores verifican desde <b>Perfil › Verificación de identidad</b>. El panel de administración muestra cuántos están aprobados, en proceso o rechazados. Sin las claves, la opción aparece como "no disponible todavía".</p>
+<p class="foot">EKO RUMMY 1.0 · Business Shop · EKO K'iin. La documentación técnica completa (API, seguridad, cumplimiento y reporte de pruebas) está en la carpeta docs del servidor.</p>
+</body></html>

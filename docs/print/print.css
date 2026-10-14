@@ -1,0 +1,47 @@
+@page { size: Letter; margin: 18mm 17mm 18mm 17mm; }
+@page :first { margin: 0; }
+:root { --green: #134a37; --deep: #0b3326; --ivory: #f4ecd6; --edge: #d9ccaa; --ink: #1d2a24; --muted: #56655c; --gold: #c99a2e;
+  --jade: #0d7a6a; --sol: #b06a00; --coral: #c8372d; --noche: #2c3a94; }
+* { box-sizing: border-box; }
+body { font-family: 'Inter', 'DejaVu Sans', sans-serif; color: var(--ink); font-size: 10.5pt; line-height: 1.5; margin: 0; }
+h1, h2, h3 { font-family: 'Inter Display', 'Inter', sans-serif; color: var(--deep); line-height: 1.15; margin: 0; text-wrap: balance; }
+h1 { font-size: 30pt; font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 16pt; font-weight: 800; margin-top: 22pt; padding-top: 10pt; border-top: 2pt solid var(--green); break-after: avoid; }
+h3 { font-size: 11.5pt; font-weight: 700; margin-top: 12pt; break-after: avoid; }
+p { margin: 5pt 0; max-width: 68ch; }
+ul, ol { margin: 5pt 0; padding-left: 16pt; max-width: 70ch; }
+li { margin: 2.5pt 0; }
+code { font-family: 'DejaVu Sans Mono', monospace; font-size: 9pt; background: #eef3ef; padding: 1pt 3pt; border-radius: 3pt; }
+pre { font-family: 'DejaVu Sans Mono', monospace; font-size: 8.6pt; background: #eef3ef; padding: 8pt 10pt; border-radius: 6pt; white-space: pre-wrap; break-inside: avoid; }
+table { border-collapse: collapse; width: 100%; margin: 6pt 0; font-size: 9.6pt; break-inside: avoid; }
+th, td { text-align: left; padding: 5pt 6pt; border-bottom: 0.6pt solid #cfd8d2; vertical-align: top; }
+th { color: var(--deep); font-weight: 700; border-bottom: 1.2pt solid var(--green); }
+.cover { height: 279.4mm; width: 215.9mm; display: flex; flex-direction: column; justify-content: space-between; break-after: page;
+  background: radial-gradient(120% 80% at 50% 0%, #1d6248, #134a37 50%, #0b3326); color: #f3f1e8; margin: 0; padding: 22mm 20mm; position: relative; overflow: hidden; }
+.cover h1 { color: #f3f1e8; font-size: 40pt; }
+.cover .sub { font-size: 14pt; color: #cfe0d4; max-width: 30ch; margin-top: 8pt; }
+.cover .logos { display: flex; gap: 10pt; align-items: center; }
+.cover .logos img { height: 46pt; background: var(--ivory); border-radius: 8pt; padding: 4pt 8pt; }
+.cover .guide { position: absolute; right: 8mm; bottom: 0; height: 150mm; }
+.cover .meta { font-size: 9.5pt; color: #cfe0d4; }
+.note { border-left: 3pt solid var(--gold); background: #fbf5e4; padding: 7pt 10pt; border-radius: 0 6pt 6pt 0; margin: 8pt 0; break-inside: avoid; max-width: 72ch; }
+.note.warn { border-color: var(--coral); background: #fdeeec; }
+.steps { counter-reset: s; list-style: none; padding: 0; }
+.steps > li { counter-increment: s; position: relative; padding-left: 24pt; margin: 6pt 0; }
+.steps > li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 16pt; height: 16pt; border-radius: 50%; background: var(--green); color: #fff; font-weight: 700; font-size: 8.5pt; display: grid; place-items: center; }
+.device { display: grid; grid-template-columns: 26pt 1fr; gap: 10pt; align-items: start; break-inside: avoid; }
+.device .ic { width: 26pt; height: 26pt; border-radius: 7pt; background: var(--green); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 10pt; }
+.tiles { display: flex; gap: 3pt; flex-wrap: wrap; align-items: center; margin: 6pt 0; }
+.tile { width: 22pt; height: 30pt; border-radius: 4pt; background: linear-gradient(170deg, #fffaf0, var(--ivory) 55%, #eadfbf); box-shadow: inset 0 -2pt 0 var(--edge), 0 1pt 0 #b9a983;
+  display: inline-flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Inter Display', sans-serif; font-weight: 800; font-size: 12pt; line-height: 1; }
+.tile svg { width: 8pt; height: 8pt; fill: currentColor; margin-top: 1.5pt; }
+.tile.j svg { width: 15pt; height: 15pt; margin: 0; }
+.c0 { color: var(--jade); } .c1 { color: var(--sol); } .c2 { color: var(--coral); } .c3 { color: var(--noche); } .j { color: var(--green); }
+.set { display: inline-flex; gap: 2pt; padding: 4pt; border-radius: 6pt; background: #e3ece6; margin-right: 6pt; }
+.set.bad { background: #fbe1dd; outline: 1pt dashed var(--coral); }
+.ex { display: grid; grid-template-columns: 1fr; gap: 3pt; margin: 6pt 0 10pt; break-inside: avoid; }
+.ex .cap { font-size: 9pt; color: var(--muted); }
+.blk { break-inside: avoid; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14pt; }
+.foot { margin-top: 18pt; font-size: 8.5pt; color: var(--muted); border-top: 0.6pt solid #cfd8d2; padding-top: 6pt; }
+.toc { columns: 2; font-size: 10pt; padding-left: 14pt; }

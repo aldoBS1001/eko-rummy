@@ -1,0 +1,17 @@
+{
+  "name": "eko-rummy",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.18" },
+  "scripts": {
+    "test": "node --test --test-reporter=spec \"packages/engine/test/*.test.ts\" \"apps/server/test/*.test.ts\"",
+    "test:e2e": "node apps/web/test/e2e.mjs",
+    "build": "node scripts/build.mjs",
+    "start": "node --disable-warning=ExperimentalWarning apps/server/src/index.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": { "ws": "^8.18.0" },
+  "optionalDependencies": { "pg": "^8.13.0" },
+  "devDependencies": { "esbuild": "^0.25.0", "typescript": "^5.6.0", "playwright": "^1.50.0" }
+}

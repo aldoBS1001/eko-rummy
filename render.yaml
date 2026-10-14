@@ -1,0 +1,23 @@
+# Render Blueprint: servidor de prueba gratuito de EKO RUMMY.
+# Plan free: se duerme tras 15 min sin uso y BORRA cuentas/clasificación al reiniciarse (disco efímero).
+# El servidor permanente es Oracle Cloud (deploy/oracle).
+services:
+  - type: web
+    name: eko-rummy
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: AUTH_SECRET
+        generateValue: true
+      - key: DB_PATH
+        value: /data/eko-rummy.sqlite
+      - key: TRON_NETWORK
+        value: mainnet
+      - key: BETTING_ENABLED
+        value: "false"

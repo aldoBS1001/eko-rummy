@@ -1,0 +1,13 @@
+{
+  "_nota": "Plantilla. El servidor solo habilita el módulo económico si TODAS las entradas tienen approved=true, responsable, fecha y referencia documental, y BETTING_ENABLED=true. Renombrar a approvals.json únicamente con documentos reales.",
+  "legal_jurisdictions": { "approved": false, "approver": "", "date": "", "reference": "" },
+  "gaming_permits": { "approved": false, "approver": "", "date": "", "reference": "" },
+  "age_location_verification": { "approved": false, "approver": "", "date": "", "reference": "" },
+  "kyc_aml": { "approved": false, "approver": "", "date": "", "reference": "" },
+  "financial_providers": { "approved": false, "approver": "", "date": "", "reference": "" },
+  "smart_contract_audit": { "approved": false, "approver": "", "date": "", "reference": "" },
+  "responsible_gaming": { "approved": false, "approver": "", "date": "", "reference": "" },
+  "disputes_refunds": { "approved": false, "approver": "", "date": "", "reference": "" },
+  "operator_approval": { "approved": false, "approver": "", "date": "", "reference": "" },
+  "mainnet_deployment": { "approved": false, "approver": "", "date": "", "reference": "" }
+}
