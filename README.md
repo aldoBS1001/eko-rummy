@@ -30,6 +30,7 @@ Panel administrativo: `http://localhost:8080/admin.html` (el usuario debe estar 
 
 - [Manual de instalación](docs/INSTALACION.md)
 - [Instrucciones de despliegue](docs/DESPLIEGUE.md)
+- [Servidor gratuito: Render y Oracle Cloud](docs/SERVIDOR_GRATIS.md)
 - [Publicación en App Store, Google Play y Microsoft Store](docs/TIENDAS.md)
 - [Manual del administrador](docs/ADMIN.md)
 - [Reglamento EKO RUMMY](docs/REGLAS.md)
