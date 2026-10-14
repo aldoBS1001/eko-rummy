@@ -14,7 +14,7 @@ import hashlib, struct, sys, zlib, zipfile, subprocess, os
 
 PKG = 'com.businessshop.ekorummy'
 CLS = 'Lcom/businessshop/ekorummy/Main;'
-VERSION_CODE, VERSION_NAME = 1, '1.0.0'
+VERSION_CODE, VERSION_NAME = 2, '1.0.1'
 MIN_SDK, TARGET_SDK = 21, 29
 
 # ---------------------------------------------------------------- DEX
